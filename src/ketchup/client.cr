@@ -60,6 +60,7 @@ module Ketchup
 
       @connection.puts
       @connection.flush
+      @id += 1
       response = @connection.gets
       raise "No response from server" unless response
       result_io = String::Builder.new
