@@ -1,7 +1,7 @@
 OUT        = ketchup ketchup-server
 PREFIX    ?= /usr/local
 MANPREFIX ?= $(PREFIX)/share/man
-VERSION    = $(shell git describe)
+VERSION    = $(shell git describe --tags)
 
 MANPAGES = \
 	ketchup.1 \
