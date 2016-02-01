@@ -23,7 +23,7 @@ Get ketchup-git (or ketchup-bin if you trust me) from the aur.
 See the detailed documentations for the [server](man/ketchup-server.pod)
 and [client](man/ketchup.pod).
 
-For an example config see [misc/config.yml](misc/config.yml).
+For an example config see [examples/config.yml](examples/config.yml).
 
 ## Contributing
 
