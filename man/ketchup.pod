@@ -1,0 +1,93 @@
+=head1 NAME
+
+ketchup - a highly customizable pomodoro timer
+
+=head1 SYNOPSIS
+
+Usage: I<ketchup> [ options ] [ E<lt>actionE<gt> [ params ] ]
+
+=head1 DESCRIPTION
+
+ketchup is pomodoro timer designed in a client - server manner. This is the
+manual for the client. The client is a simple command line tool to communicate
+with a running ketchup server. Invocations consist of supplying an action to
+perform on the server and any applicable options and parameters for the given
+action.
+
+=head1 UNIVERSAL OPTIONS
+
+these options can be provided with any and all actions
+
+=over 4
+
+=item B<-h HOST, --host=HOST>
+
+Host to connect to when using TCP (I<localhost> by default)
+
+=item B<-p PORT, --port=PORT>
+
+TCP port to connect to (I<5678> by default)
+
+=item B<-s SOCKET, --socket=SOCKET>
+
+UNIX socket to connect to (overrides B<PORT>)
+
+=item B<-?, --help>
+
+Shows a summary of this manual. If an I<action> is provided shows detailed help
+for the given action.
+
+=back
+
+=head1 ACTIONS
+
+if no action is provided B<status> is used
+
+=over 4
+
+=item B<start>
+
+Starts a pomodoro. Needs a single I<task name> argument to specify which task
+to associate the pomodoro with.
+
+=item B<interrupt>
+
+Interrupts a running pomodoro. An optional I<reason> can be provided as an
+argument to document why the pomodoro was interrupted.
+
+=item B<break>
+
+Starts a break. No arguments are required. The duration of the break depends
+on the amount of consecutive finished pomodoros.
+
+=item B<status>
+
+Shows the status of the ketchup server. The output is formatted as follows:
+
+ [state] "task name" ends in HH:MM:SS
+
+=back
+
+=head1 CONFIG FILE
+
+ketchup honors a config file which will be looked for first at:
+
+ $XDG_CONFIG_HOME/ketchup/config.yml
+
+and falling back to:
+
+ $HOME/.config/ketchup/config.yml
+
+A documented example config file can be found at /usr/share/doc/ketchup/config.yml.
+
+=head1 SEE ALSO
+
+=over 4
+
+=item B<ketchup-server>(1)
+
+=back
+
+=head1 AUTHOR
+
+Joakim Reinert E<lt>mail+ketchup@jreinert.comE<gt>

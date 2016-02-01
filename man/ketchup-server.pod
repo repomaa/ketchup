@@ -1,0 +1,188 @@
+=head1 NAME
+
+ketchup - a highly customizable pomodoro timer
+
+=head1 SYNOPSIS
+
+Usage: I<ketchup-server> [ options ]
+
+=head1 DESCRIPTION
+
+ketchup is pomodoro timer designed in a client - server manner. This is the
+manual for the server. The server is a very lightweight process that can be
+ran in the background. It listens on either a TCP or UNIX socket. The protocol
+used to communicate with the server is json-rpc.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<-h HOST, --host=HOST>
+
+Host to listen on when using TCP (I<localhost> by default)
+
+=item B<-p PORT, --port=PORT>
+
+Listen on given TCP port (I<5678> by default)
+
+=item B<-s SOCKET, --socket=SOCKET>
+
+Listen on given UNIX socket (overrides B<PORT>)
+
+=item B<-P DURATION, --pomodoro-duration=DURATION>
+
+Duration of a pomodoro in minutes (25 by default)
+
+=item B<-S DURATION, --short-break-duration=DURATION>
+
+Duration of a short break in minutes (5 by default)
+
+=item B<-L DURATION, --long-break-duration=DURATION>
+
+Duration of a long break in minutes (30 by default)
+
+=item B<-c COUNT, --cycle=COUNT>
+
+A cycle consists of B<COUNT> pomodoros. After a cycle a long break would be
+scheduled. (4 by default)
+
+=item B<-?, --help>
+
+Shows a summary of this manual.
+
+=back
+
+=head1 RPC
+
+The json-rpc version used by ketchup is "2.0" and must be provided with the
+I<jsonrpc> member in all requests. All requests must also provide a unique
+id via the I<id> member. Requests I<must> be sent on a single line ending with
+a single line feed character.
+
+Following rpc methods are implemented
+
+=over 4
+
+=item B<start_pomodoro>
+
+will start a pomodoro on the server. Requires a B<params> member of the
+following form:
+
+ {"task": "name of the task the pomodoro should be associated with"}
+
+Responds with the B<result> member set to I<"success"> on success or B<error> 
+set to a sane json-rpc error object on failure.
+
+=item B<interrupt_pomodoro>
+
+will interrupt a running pomodoro. Accepts an optional B<params> member of the
+following form:
+
+ {"reason": "reason for stopping the pomodoro"}
+
+Responds with the B<result> member set to I<"success"> on success or B<error> 
+set to a sane json-rpc error object on failure.
+
+=item B<start_break>
+
+will start a break on the server. Accepts no parameters.
+
+Responds with the B<result> member set to I<"success"> on success or B<error> 
+set to a sane json-rpc error object on failure.
+
+=item B<status>
+
+queries the server of its current status.
+
+Responds with the B<result> member set to contain an object with the following
+members:
+
+ state         the current state of the server.
+               one of ["idle", "pomodoro", "break"]
+
+ current_task  the name of the currently running task.
+               is omitted from the object if no task is running.
+
+ ends_at       a unix timestamp representing the time at which the state
+               will change back to idle. is omitted if the server state is
+               "idle".
+
+=back
+
+=head1 CONFIG FILE
+
+ketchup honors a config file which will be looked for first at:
+
+ $XDG_CONFIG_HOME/ketchup/config.yml
+
+and falling back to:
+
+ $HOME/.config/ketchup/config.yml
+
+A documented example config file can be found at /usr/share/doc/ketchup/config.yml.
+
+=head1 HOOKS
+
+ketchup looks for user provided hooks first in:
+
+ $XDG_CONFIG_HOME/ketchup/hooks/
+
+and falling back to:
+
+ $HOME/.config/ketchup/hooks/
+
+Hooks are executable files and they are called by the ketchup server whenever
+an event occurs. They may be provided with additional information about the
+event via command line arguments. The hooks must be named after the events they
+should be called upon.
+
+=over 4
+
+=item B<task_started>
+
+is called each time a pomodoro is started. It gets the name of the started task
+passed as its only argument.
+
+=item B<task_stopped>
+
+is called each time either a break is started or a pomodoro is started without
+first finishing a break. It gets the name of the stopped task passed as its
+only argument.
+
+=item B<pomodoro_finished>
+
+is called each time a pomodoro finishes normally (i.e. is not interrupted). It
+gets the name of the task to which this pomodoro was associated with passed as
+its only argument.
+
+=item B<pomodoro_interrupted>
+
+is called whenever a pomodoro is interrupted prematurely. It gets the name
+of the task to which the pomodoro was associated with as its first argument.
+If a reason for interrupting the pomodoro was provided it is passed as second
+and last argument.
+
+=item B<break_started>
+
+is called whenever a break is started. It gets the type of the break passed
+as its only parameter. The type is either I<short> or I<long>.
+
+=item B<break_finished>
+
+is called whenever a break finishes normally (i.e. is not interrupted by
+starting a pomodoro prematurely). It gets the type of the break passed as its
+only parameter. The type is either I<short> or I<long>.
+
+=back
+
+=head1 SEE ALSO
+
+=over 4
+
+=item B<ketchup>(1)
+
+=back
+
+=head1 AUTHOR
+
+Joakim Reinert E<lt>mail+ketchup@jreinert.comE<gt>

@@ -11,10 +11,10 @@ all: $(OUT) doc
 
 doc: $(MANPAGES)
 
-ketchup.1: doc/ketchup.pod
+ketchup.1: man/ketchup.pod
 	pod2man --section=1 --center="Ketchup Manual (Client)" --name="KETCHUP" --release="ketchup $(VERSION)" $< $@
 
-ketchup-server.1: doc/ketchup-server.pod
+ketchup-server.1: man/ketchup-server.pod
 	pod2man --section=1 --center="Ketchup Manual (Server)" --name="KETCHUP-SERVER" --release="ketchup $(VERSION)" $< $@
 
 ketchup: src/client_cli.cr

@@ -20,8 +20,8 @@ Get ketchup-git from the aur.
 
 ## Usage
 
-See the detailed documentations for the [server](doc/ketchup-server.pod)
-and [client](doc/ketchup.pod).
+See the detailed documentations for the [server](man/ketchup-server.pod)
+and [client](man/ketchup.pod).
 
 For an example config see [misc/config.yml](misc/config.yml).
 
