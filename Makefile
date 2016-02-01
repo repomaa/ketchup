@@ -31,7 +31,7 @@ install: all
 	install -D -m755 ketchup-server "$(DESTDIR)$(PREFIX)/bin/ketchup-server"
 	install -D -m644 ketchup.1 "$(DESTDIR)$(MANPREFIX)/man1/ketchup.1"
 	install -D -m644 ketchup-server.1 "$(DESTDIR)$(MANPREFIX)/man1/ketchup-server.1"
-	install -D -m644 doc/config.yml "$(DESTDIR)$(PREFIX)/share/doc/ketchup/config.yml"
+	install -D -m644 misc/config.yml "$(DESTDIR)$(PREFIX)/share/doc/ketchup/config.yml"
 
 uninstall:
 	$(RM) "$(DESTDIR)$(PREFIX)/bin/ketchup" \
