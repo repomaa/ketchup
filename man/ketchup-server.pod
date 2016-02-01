@@ -134,7 +134,7 @@ and falling back to:
 Hooks are executable files and they are called by the ketchup server whenever
 an event occurs. They may be provided with additional information about the
 event via command line arguments. The hooks must be named after the events they
-should be called upon.
+should be called upon. The pwd will be set to the hooks directory.
 
 =over 4
 

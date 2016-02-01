@@ -43,10 +43,14 @@ module Ketchup
     end
 
     private def run_user_hook(name, args)
-      user_hook = File.join(CONFIG_DIR, "hooks", name)
+      user_hooks_dir = File.join(CONFIG_DIR, "hooks")
+      user_hook = File.join(user_hooks_dir, name)
       return unless File.exists?(user_hook) && File.executable?(user_hook)
-      unless system(user_hook, args)
-        STDERR.puts "ERROR: user hook `#{name}` failed with exit code #{$?.exit_code}"
+
+      Dir.cd(user_hooks_dir) do
+        unless system(user_hook, args)
+          STDERR.puts "ERROR: user hook `#{name}` failed with exit code #{$?.exit_code}"
+        end
       end
     end
   end
