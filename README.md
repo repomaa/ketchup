@@ -16,7 +16,7 @@ a highly customizable pomodoro timer written in
 
 ### Arch Linux
 
-Get ketchup-git from the aur.
+Get ketchup-git (or ketchup-bin if you trust me) from the aur.
 
 ## Usage
 
