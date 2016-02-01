@@ -31,7 +31,7 @@ install: all
 	install -D -m755 ketchup-server "$(DESTDIR)$(PREFIX)/bin/ketchup-server"
 	install -D -m644 ketchup.1 "$(DESTDIR)$(MANPREFIX)/man1/ketchup.1"
 	install -D -m644 ketchup-server.1 "$(DESTDIR)$(MANPREFIX)/man1/ketchup-server.1"
-	install -D -m644 misc/config.yml "$(DESTDIR)$(PREFIX)/share/doc/ketchup/config.yml"
+	install -D -m644 examples/config.yml "$(DESTDIR)$(PREFIX)/share/doc/ketchup/config.yml"
 	install -D -m644 examples/ledger/README.md "$(DESTDIR)$(PREFIX)/share/doc/ketchup/examples/ledger/README.md"
 	install -D -m644 examples/ledger/vars "$(DESTDIR)$(PREFIX)/share/doc/ketchup/examples/ledger/vars"
 	install -D -m755 examples/ledger/task_started "$(DESTDIR)$(PREFIX)/share/doc/ketchup/examples/ledger/task_started"
