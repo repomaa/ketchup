@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+
+source vars
+
+task=$1
+date=$(date +%F)
+
+echo -e "$date Pomodoro finished\n\t($task)  1 Pomodoros\n" >> $pomodoro_ledger
+mpc pause
+notify-send ketchup "Pomodoro finished"
+paplay $alarm_sound

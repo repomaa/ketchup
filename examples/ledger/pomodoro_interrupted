@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+source vars
+
+task=$1
+reason=$2
+date=$(date +%F)
+
+entry="$date Pomodoro interrupted\n\t($task)  1 Interruptions"
+[[ -n $reason ]] && entry="$entry\n\t; reason: $reason"
+echo -e "$entry\n" >> $pomodoro_ledger
+notify-send ketchup "Pomodoro interrupted"

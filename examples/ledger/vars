@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+
+LEDGER_ROOT="$HOME/ledger/$TRACKING_PROJECT"
+
+time_ledger="$LEDGER_ROOT/time.dat"
+pomodoro_ledger="$LEDGER_ROOT/pomodoro.dat"
+alarm_sound=/usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga

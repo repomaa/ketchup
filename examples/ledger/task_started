@@ -1,0 +1,9 @@
+#!/usr/bin/bash
+
+source vars
+
+task=$1
+
+timestamp=$(date +"%F %T")
+echo "i $timestamp $task" >> $time_ledger
+notify-send ketchup "Pomodoro started"

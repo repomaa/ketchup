@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+source vars
+
+timestamp=$(date +"%F %T")
+echo -e "o $timestamp\n" >> $time_ledger
