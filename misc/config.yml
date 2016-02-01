@@ -1,0 +1,21 @@
+---
+# Listen on/Connect to this host
+host: localhost
+
+# Listen on/Connect to this TCP Port
+port: 5678
+
+# Alternatively use the following socket (will override the port)
+#socket: /var/run/user/1000/ketchup.sock
+
+# Set the duration of a single pomodoro in minutes
+pomodoro_duration: 25
+
+# Set the duration of a single short break in minutes
+short_break_duration: 5
+
+# Set the duration of a single long break in minutes
+long_break_duration: 30
+
+# Set the amount of finished pomodoros before a long break
+cycle: 4
