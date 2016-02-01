@@ -1,4 +1,5 @@
 OUT        = ketchup ketchup-server
+SRC        = $(shell find src/ -type f -name '*.cr')
 PREFIX    ?= /usr/local
 MANPREFIX ?= $(PREFIX)/share/man
 VERSION    = $(shell git describe --tags)
@@ -17,11 +18,11 @@ ketchup.1: man/ketchup.pod
 ketchup-server.1: man/ketchup-server.pod
 	pod2man --section=1 --center="Ketchup Manual (Server)" --name="KETCHUP-SERVER" --release="ketchup $(VERSION)" $< $@
 
-ketchup: src/client_cli.cr
-	crystal build --release -o $@ $<
+ketchup: $(SRC)
+	crystal build --release -o $@ src/client_cli.cr
 
-ketchup-server: src/server_cli.cr
-	crystal build --release -o $@ $<
+ketchup-server: $(SRC)
+	crystal build --release -o $@ src/server_cli.cr
 
 strip: $(OUT)
 	strip --strip-all $(OUT)
@@ -38,6 +39,7 @@ install: all
 	install -D -m755 examples/ledger/task_stopped "$(DESTDIR)$(PREFIX)/share/doc/ketchup/examples/ledger/task_stopped"
 	install -D -m755 examples/ledger/pomodoro_finished "$(DESTDIR)$(PREFIX)/share/doc/ketchup/examples/ledger/pomodoro_finished"
 	install -D -m755 examples/ledger/pomodoro_interrupted "$(DESTDIR)$(PREFIX)/share/doc/ketchup/examples/ledger/pomodoro_interrupted"
+
 uninstall:
 	$(RM) "$(DESTDIR)$(PREFIX)/bin/ketchup" \
 		"$(DESTDIR)$(PREFIX)/bin/ketchup-server" \
