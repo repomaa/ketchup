@@ -23,7 +23,7 @@ module Ketchup
         case key
         when "current_task" then task = parser.read_string
         when "state" then state = parser.read_string
-        when "ending_at" then ending_at = Time.epoch(parser.read_int)
+        when "ending_at" then ending_at = Time.unix(parser.read_int)
         end
       end
 
@@ -31,8 +31,8 @@ module Ketchup
         builder << "[#{state}]"
         builder << %( "#{task}") if task
         if ending_at
-          time_left = ending_at - Time.now
-          time_left = Time::Span.new(time_left.hours, time_left.minutes, time_left.seconds)
+          time_left = ending_at - Time.utc
+          time_left = Time::Span.new(hours: time_left.hours, minutes: time_left.minutes, seconds: time_left.seconds)
           builder << " ends in #{time_left}"
         end
       end

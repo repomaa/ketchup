@@ -12,8 +12,8 @@ module Ketchup
       @mutex = Channel(Bool).new(1)
       @mutex.send(true)
       @current_state = States::Idle
-      @started_at = Time.epoch(0)
-      @ending_at = Time.epoch(0)
+      @started_at = Time.unix(0)
+      @ending_at = Time.unix(0)
       @pomodoro_index = 0
     end
 
@@ -64,7 +64,7 @@ module Ketchup
       result = {} of Symbol => (String | Int32 | Int64)
       result[:state] = current_state.to_s.underscore
       unless current_state == States::Idle
-        result[:ending_at] = ending_at.epoch
+        result[:ending_at] = ending_at.to_unix
       end
 
       if current_state == States::Pomodoro
@@ -84,11 +84,11 @@ module Ketchup
     private def set_timer(task, state, duration, &on_finished)
       self.current_task = task
       self.current_state = state
-      self.started_at = Time.now
+      self.started_at = Time.utc
       self.ending_at = started_at + duration
 
       spawn do
-        until synchronize { interrupting? || Time.now >= ending_at }
+        until synchronize { interrupting? || Time.utc >= ending_at }
           sleep 1
         end
 
