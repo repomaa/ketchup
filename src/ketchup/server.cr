@@ -10,10 +10,10 @@ module Ketchup
       new(TCPServer.new(host, port))
     end
 
-    def initialize(@server)
+    def initialize(@server : UNIXServer | TCPServer)
       @state = State.new(STDOUT)
       @requests = Channel(Request).new
-      @responses = {} of (Int64 | Float64 | String) => Channel(Response)
+      @responses = {} of (Float64 | Int64 | Int32 | String) => Channel(Response)
     end
 
     private def accept

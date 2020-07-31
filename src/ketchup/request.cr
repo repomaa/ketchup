@@ -4,7 +4,7 @@ module Ketchup
   abstract class Request
     getter id
 
-    def initialize(@id, params = nil)
+    def initialize(@id : Float64? | Int64? | Int32? | String?, params = nil)
       parse_params(params)
     end
 

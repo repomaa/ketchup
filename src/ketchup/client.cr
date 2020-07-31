@@ -8,7 +8,7 @@ module Ketchup
       new(UNIXSocket.new(socket))
     end
 
-    def initialize(@connection)
+    def initialize(@connection : Socket)
       @id = 0
     end
 

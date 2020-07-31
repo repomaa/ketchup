@@ -7,7 +7,7 @@ module Ketchup
       Interrupting
     end
 
-    def initialize(@log)
+    def initialize(@log : IO)
       @current_task = nil
       @mutex = Channel(Bool).new(1)
       @mutex.send(true)
@@ -119,7 +119,7 @@ module Ketchup
       @mutex.send(true)
     end
 
-    private property current_state, current_task, pomodoro_index, started_at, ending_at
+    private property current_state, current_task : String?, pomodoro_index, started_at, ending_at
 
     {% for state in States.constants %}
       private def {{state.stringify.underscore.id}}?

@@ -2,7 +2,7 @@ module Ketchup
   class Error < Exception
     getter id, code, message, data
 
-    def initialize(@id, @code : Int, @message : String, @data = nil)
+    def initialize(@id : Float64? | Int64? | Int32? | String?, @code : Int32, @message : String, @data : String? = nil)
       super(@message)
     end
 

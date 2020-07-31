@@ -2,7 +2,7 @@ require "json"
 
 module Ketchup
   abstract class Response
-    getter id
+    getter id : Float64? | Int64? | Int32? | String?
 
     def initialize(@id)
     end
