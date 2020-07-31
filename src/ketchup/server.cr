@@ -17,10 +17,7 @@ module Ketchup
     end
 
     private def accept
-      server = @server
-      return (server as UNIXServer).accept if server.is_a?(UNIXServer)
-      return (server as TCPServer).accept if server.is_a?(TCPServer)
-      raise "invalid type for server #{typeof(server)}"
+      return @server.accept
     end
 
     private def handle_client(sock)
