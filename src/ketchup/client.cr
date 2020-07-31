@@ -69,7 +69,9 @@ module Ketchup
       parser.read_object do |key|
         case key
         when "error" then raise parse_error(parser)
-        when "result" then parser.skip(result_io)
+        when "result"
+          JSON.build(result_io) { |json| parser.read_raw(json) }
+          result_io
         else parser.skip
         end
       end

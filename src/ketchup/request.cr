@@ -54,7 +54,7 @@ module Ketchup
 
       def parse_params
         io = String::Builder.new
-        @parser.skip(io)
+        JSON.build(io) { |json| @parser.read_raw(json) }
         io.to_s
       end
 

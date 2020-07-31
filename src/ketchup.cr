@@ -1,4 +1,3 @@
-require "./core_ext/**"
 require "./ketchup/config"
 
 module Ketchup
