@@ -22,7 +22,7 @@ module Ketchup
         @parser = JSON::PullParser.new(string)
       end
 
-      macro def parse : Request
+      def parse : Request
         version = nil
         id = nil
         method = nil
@@ -44,12 +44,14 @@ module Ketchup
           raise InvalidRequestError.new(id, "No method specified")
         end
 
+        {% begin %}
         case(method)
         {% for request in Request.subclasses %}
         when {{request.stringify.gsub(/Ketchup::|(Request$)/, "").underscore}} then {{request}}.new(id, params)
         {% end %}
         else raise UnknownMethodError.new(id, method)
         end
+        {% end %}
       end
 
       def parse_params

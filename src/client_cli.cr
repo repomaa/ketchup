@@ -69,7 +69,7 @@ module Ketchup
     end
 
     begin
-      base_parser.parse!
+      base_parser.parse
       arg = ARGV.find { |arg| arg =~ /^[^\-]/ }
       raise "Unknown action '#{arg}'" if arg && !action
     rescue e

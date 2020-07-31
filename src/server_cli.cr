@@ -3,7 +3,7 @@ require "./ketchup"
 
 module Ketchup
   module ServerCli
-    OptionParser.parse! do |parser|
+    OptionParser.parse do |parser|
       parser.banner = "Usage: #{$0} [options]"
 
       parser.separator("\nOptions:")
