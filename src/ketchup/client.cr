@@ -51,11 +51,13 @@ module Ketchup
     end
 
     private def rpc(method, params = nil)
-      @connection.json_object do |object|
-        object.field "jsonrpc", "2.0"
-        object.field "id", @id
-        object.field "method", method
-        object.field "params", params if params
+      JSON.build @connection do |json|
+        json.object do
+          json.field "jsonrpc", "2.0"
+          json.field "id", @id
+          json.field "method", method
+          json.field "params", params if params
+        end
       end
 
       @connection.puts
@@ -69,9 +71,7 @@ module Ketchup
       parser.read_object do |key|
         case key
         when "error" then raise parse_error(parser)
-        when "result"
-          JSON.build(result_io) { |json| parser.read_raw(json) }
-          result_io
+        when "result" then result_io = JSON.build { |json| parser.read_raw(json) }
         else parser.skip
         end
       end

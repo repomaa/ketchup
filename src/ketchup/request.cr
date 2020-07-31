@@ -55,18 +55,16 @@ module Ketchup
       end
 
       def parse_params
-        io = String::Builder.new
-        JSON.build(io) { |json| @parser.read_raw(json) }
-        io.to_s
+        JSON.build { |json| @parser.read_raw(json) }
       end
 
       def parse_id
         @parser.read_next
         case @parser.kind
-        when :int then @parser.int_value
-        when :float then @parser.float_value
-        when :string then @parser.string_value
-        when :null then nil
+        when JSON::PullParser::Kind::Int then @parser.int_value
+        when JSON::PullParser::Kind::Float then @parser.float_value
+        when JSON::PullParser::Kind::String then @parser.string_value
+        when JSON::PullParser::Kind::Null then nil
         else raise InvalidRequestError.new(
           "Type error for id: Expected int, float, string or null. Got #{@parser.kind}."
         )
