@@ -12,13 +12,13 @@ module Ketchup
 
     action = nil
 
-    start_usage = "Usage: #{$0} [options] start task_name"
-    interrupt_usage = "Usage: #{$0} [options] interrupt [reason]"
-    break_usage = "Usage: #{$0} [options] break"
-    status_usage = "Usage: #{$0} [options] status"
+    start_usage = "Usage: #{PROGRAM_NAME} [options] start task_name"
+    interrupt_usage = "Usage: #{PROGRAM_NAME} [options] interrupt [reason]"
+    break_usage = "Usage: #{PROGRAM_NAME} [options] break"
+    status_usage = "Usage: #{PROGRAM_NAME} [options] status"
 
     base_parser = OptionParser.new do |parser|
-      parser.banner = "Usage: #{$0} [options] [action [params...]]"
+      parser.banner = "Usage: #{PROGRAM_NAME} [options] [action [params...]]"
 
       parser.separator("\nOptions:")
 

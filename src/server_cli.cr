@@ -4,7 +4,7 @@ require "./ketchup"
 module Ketchup
   module ServerCli
     OptionParser.parse do |parser|
-      parser.banner = "Usage: #{$0} [options]"
+      parser.banner = "Usage: #{PROGRAM_NAME} [options]"
 
       parser.separator("\nOptions:")
       parser.on("-h HOST", "--host=HOST", "Host to listen on when using TCP (localhost by default)") do |host|
