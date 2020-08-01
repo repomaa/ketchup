@@ -19,15 +19,15 @@ module Ketchup
         CONFIG.socket = socket
       end
 
-      parser.on("--pomodoro-duration=DURATION", "Duration of a pomodoro in minutes") do |duration|
+      parser.on("-P DURATION", "--pomodoro-duration=DURATION", "Duration of a pomodoro in minutes") do |duration|
         CONFIG.pomodoro_duration = duration.to_i32
       end
 
-      parser.on("--short-break-duration=DURATION", "Duration of a short break in minutes") do |duration|
+      parser.on("-S DURATION", "--short-break-duration=DURATION", "Duration of a short break in minutes") do |duration|
         CONFIG.short_break_duration = duration.to_i32
       end
 
-      parser.on("--long-break-duration=DURATION", "Duration of a long break in minutes") do |duration|
+      parser.on("-L DURATION", "--long-break-duration=DURATION", "Duration of a long break in minutes") do |duration|
         CONFIG.long_break_duration = duration.to_i32
       end
 
