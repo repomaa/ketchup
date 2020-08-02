@@ -10,17 +10,14 @@ module Ketchup
       new(TCPServer.new(host, port))
     end
 
-    def initialize(@server)
+    def initialize(@server : UNIXServer | TCPServer)
       @state = State.new(STDOUT)
       @requests = Channel(Request).new
-      @responses = {} of (Int64 | Float64 | String) => Channel(Response)
+      @responses = {} of (Float64 | Int64 | Int32 | String) => Channel(Response)
     end
 
     private def accept
-      server = @server
-      return (server as UNIXServer).accept if server.is_a?(UNIXServer)
-      return (server as TCPServer).accept if server.is_a?(TCPServer)
-      raise "invalid type for server #{typeof(server)}"
+      return @server.accept
     end
 
     private def handle_client(sock)

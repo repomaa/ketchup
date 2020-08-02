@@ -1,6 +1,6 @@
 module Ketchup
   class StartPomodoroRequest < Request
-    getter! task
+    getter! task : String
 
     def parse_params(params)
       missing_params = InvalidParamsError.new(id, "required params: task")

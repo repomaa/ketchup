@@ -8,7 +8,7 @@ module Ketchup
       new(UNIXSocket.new(socket))
     end
 
-    def initialize(@connection)
+    def initialize(@connection : Socket)
       @id = 0
     end
 
@@ -23,7 +23,7 @@ module Ketchup
         case key
         when "current_task" then task = parser.read_string
         when "state" then state = parser.read_string
-        when "ending_at" then ending_at = Time.epoch(parser.read_int)
+        when "ending_at" then ending_at = Time.unix(parser.read_int)
         end
       end
 
@@ -31,8 +31,8 @@ module Ketchup
         builder << "[#{state}]"
         builder << %( "#{task}") if task
         if ending_at
-          time_left = ending_at - Time.now
-          time_left = Time::Span.new(time_left.hours, time_left.minutes, time_left.seconds)
+          time_left = ending_at - Time.utc
+          time_left = Time::Span.new(hours: time_left.hours, minutes: time_left.minutes, seconds: time_left.seconds)
           builder << " ends in #{time_left}"
         end
       end
@@ -51,11 +51,13 @@ module Ketchup
     end
 
     private def rpc(method, params = nil)
-      @connection.json_object do |object|
-        object.field "jsonrpc", "2.0"
-        object.field "id", @id
-        object.field "method", method
-        object.field "params", params if params
+      JSON.build @connection do |json|
+        json.object do
+          json.field "jsonrpc", "2.0"
+          json.field "id", @id
+          json.field "method", method
+          json.field "params", params if params
+        end
       end
 
       @connection.puts
@@ -69,7 +71,7 @@ module Ketchup
       parser.read_object do |key|
         case key
         when "error" then raise parse_error(parser)
-        when "result" then parser.skip(result_io)
+        when "result" then result_io = JSON.build { |json| parser.read_raw(json) }
         else parser.skip
         end
       end

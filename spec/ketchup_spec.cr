@@ -1,5 +1,4 @@
 require "./spec_helper"
-require "./core_ext/json/pull_parser_spec"
 
 describe Ketchup do
   # TODO: Write tests

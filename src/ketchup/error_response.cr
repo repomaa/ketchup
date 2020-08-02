@@ -8,7 +8,7 @@ module Ketchup
       @id = @error.id
     end
 
-    def initialize(@id, error_code, error_message, error_data = nil)
+    def initialize(@id : Float64? | Int64? | Int32? | String?, error_code, error_message, error_data = nil)
       @error = Error.new(@id, error_code, error_message, error_data)
     end
   end

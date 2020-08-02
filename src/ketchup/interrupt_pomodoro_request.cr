@@ -2,7 +2,7 @@ require "./request"
 
 module Ketchup
   class InterruptPomodoroRequest < Request
-    getter reason
+    getter reason : String?
 
     def parse_params(params)
       return unless params
