@@ -35,4 +35,5 @@ For an example config see [examples/config.yml](examples/config.yml).
 
 ## Contributors
 
-- [jreinert](https://github.com/jreinert) Joakim Reinert - creator, maintainer
+- [repomaa](https://github.com/repomaa) Joakim Repomaa - creator
+- [codehearts](https://github.com/codehearts) Catherine Hart - maintainer
