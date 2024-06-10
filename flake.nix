@@ -58,6 +58,7 @@
           nixosModules.default = { lib, config, ... }:
             let
               cfg = config.services.ketchup;
+              settings = cfg.settings;
             in
             {
               options = {
@@ -100,12 +101,12 @@
 
               config = lib.mkIf cfg.enable {
                 xdg.configFile."ketchup/config.yml".text = ''
-                  ${if isNull cfg.port then "" else "host: ${cfg.host}"}
-                  ${if isNull cfg.port then "socket: /tmp/ketchup-${config.home.username}.S" else "port: ${toString cfg.port}"}
-                  pomodoro_duration: ${toString cfg.pomodoro_duration}
-                  short_break_duration: ${toString cfg.short_break_duration}
-                  long_break_duration: ${toString cfg.long_break_duration}
-                  cycle: ${toString cfg.cycle}
+                  ${if isNull settings.port then "" else "host: ${settings.host}"}
+                  ${if isNull settings.port then "socket: /tmp/ketchup-${config.home.username}.S" else "port: ${toString settings.port}"}
+                  pomodoro_duration: ${toString settings.pomodoro_duration}
+                  short_break_duration: ${toString settings.short_break_duration}
+                  long_break_duration: ${toString settings.long_break_duration}
+                  cycle: ${toString settings.cycle}
                 '';
 
                 systemd.user.services.ketchup = {
