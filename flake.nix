@@ -96,26 +96,66 @@
                       description = "Amount of finished pomodoros before a long break";
                     };
                   };
+                  hooks = {
+                    task_started = lib.mkOption {
+                      type = lib.types.nullOr lib.types.str;
+                      default = null;
+                      description = "Script to run when a task is started";
+                    };
+                    task_stopped = lib.mkOption {
+                      type = lib.types.nullOr lib.types.str;
+                      default = null;
+                      description = "Script to run when a task is stopped";
+                    };
+                    pomodoro_finished = lib.mkOption {
+                      type = lib.types.nullOr lib.types.str;
+                      default = null;
+                      description = "Script to run when a pomodoro is finished";
+                    };
+                    pomodoro_interrupted = lib.mkOption {
+                      type = lib.types.nullOr lib.types.str;
+                      default = null;
+                      description = "Script to run when a pomodoro is interrupted";
+                    };
+                    break_started = lib.mkOption {
+                      type = lib.types.nullOr lib.types.str;
+                      default = null;
+                      description = "Script to run when a break is started";
+                    };
+                    break_finished = lib.mkOption {
+                      type = lib.types.nullOr lib.types.str;
+                      default = null;
+                      description = "Script to run when a break is finished";
+                    };
+                  };
                 };
               };
 
-              config = lib.mkIf cfg.enable {
-                xdg.configFile."ketchup/config.yml".text = ''
-                  ${if isNull settings.port then "" else "host: ${settings.host}"}
-                  ${if isNull settings.port then "socket: /tmp/ketchup-${config.home.username}.S" else "port: ${toString settings.port}"}
-                  pomodoro_duration: ${toString settings.pomodoro_duration}
-                  short_break_duration: ${toString settings.short_break_duration}
-                  long_break_duration: ${toString settings.long_break_duration}
-                  cycle: ${toString settings.cycle}
-                '';
+              config = lib.mkIf cfg.enable
+                {
+                  xdg.configFile = {
+                    "ketchup/config.yml".text = ''
+                      ${if isNull settings.port then "" else "host: ${settings.host}"}
+                      ${if isNull settings.port then "socket: /tmp/ketchup-${config.home.username}.S" else "port: ${toString settings.port}"}
+                      pomodoro_duration: ${toString settings.pomodoro_duration}
+                      short_break_duration: ${toString settings.short_break_duration}
+                      long_break_duration: ${toString settings.long_break_duration}
+                      cycle: ${toString settings.cycle}
+                    '';
+                  } // lib.mapAttrs'
+                    (name: value: lib.nameValuePair "ketchup/hooks/${name}" {
+                      type = "exec";
+                      text = lib.concatLines "#!/usr/bin/env bash" value;
+                    })
+                    (lib.filterAttrs (name: value: !isNull value) cfg.hooks);
 
-                systemd.user.services.ketchup = {
-                  Install.WantedBy = [ "default.target" ];
-                  Service.ExecStart = "${ketchup-server}/bin/ketchup-server";
+                  systemd.user.services.ketchup = {
+                    Install.WantedBy = [ "default.target" ];
+                    Service.ExecStart = "${ketchup-server}/bin/ketchup-server";
+                  };
+
+                  home.packages = [ ketchup-cli ];
                 };
-
-                home.packages = [ ketchup-cli ];
-              };
             };
 
           packages = {
