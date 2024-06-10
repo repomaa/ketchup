@@ -10,3 +10,6 @@
 # manpages
 /ketchup.1
 /ketchup-server.1
+
+# nix build result
+/result
